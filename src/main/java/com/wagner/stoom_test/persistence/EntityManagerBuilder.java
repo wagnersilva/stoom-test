@@ -1,6 +1,7 @@
 package com.wagner.stoom_test.persistence;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Produces;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -12,7 +13,8 @@ public class EntityManagerBuilder {
 	
 	private EntityManager entityManager;
 
-	public EntityManager getEntityManager() {
+	@Produces
+        public EntityManager getEntityManager() {
 		if(entityManager == null){
 			createEntityManager();
 		}
