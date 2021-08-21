@@ -31,4 +31,28 @@ public class AddressDAO {
         entityManager.getTransaction().commit();
     }
     
+    public Address find(int id) {
+        return entityManager.find(Address.class, id);
+    }
+    
+    public Address update(Address address) {
+        if (address.getId() > 0 && entityManager.contains(address)) {
+            entityManager.getTransaction().begin();
+            address = entityManager.merge(address);
+            entityManager.getTransaction().commit();
+        }
+        else
+            address = null;
+        return address;
+    }
+    
+    public Address remove(Address address) {
+         if (address.getId() > 0 && entityManager.contains(address)) {
+             entityManager.getTransaction().begin();
+                address = entityManager.merge(address);
+             entityManager.getTransaction().commit();
+         }
+        return address;
+    }
+    
 }

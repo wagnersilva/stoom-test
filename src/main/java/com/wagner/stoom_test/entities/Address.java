@@ -106,5 +106,10 @@ public class Address implements Serializable {
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
+
+    @Override
+    public String toString() {
+        return "Address{" + "id=" + id + ", streetName=" + streetName + ", number=" + number + ", complement=" + complement + ", neighbourhood=" + neighbourhood + ", city=" + city + ", state=" + state + ", country=" + country + ", zipCode=" + zipCode + ", latitude=" + latitude + ", longitude=" + longitude + '}';
+    }
 	
 }

@@ -10,6 +10,11 @@ import com.wagner.stoom_test.persistence.AddressDAO;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.PathParam;
 
 @Path("/address")
 @Produces(MediaType.APPLICATION_JSON)
@@ -18,20 +23,43 @@ import javax.inject.Named;
 public class AddressServices {
     
     @Inject
-    private AddressDAO addressDAO;
+    private AddressDAO dao;
 
     @GET
-    public Address readAddress() {
-        Address address = new Address();
-        address.setStreetName("Rua do Rosário");
-        address.setNumber(291);
-        address.setNeighbourhood("Centro");
-        address.setCity("Icó");
-        address.setState("Ceará");
-        address.setZipCode("63430-000");
-        address.setCountry("Brasil");
-        addressDAO.persist(address);
+    @Path("/{id}")
+    public Address readAddress(@PathParam("id") int id) {
+        return dao.find(id);
+    }
+    
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Address createAddress(Address address) {
+        dao.persist(address);
         return address;
+    }
+    
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Address updateAddress(Address address) {
+        Address oldAddress = dao.find(address.getId()); 
+        if ( oldAddress != null) {
+                oldAddress = address;
+                dao.update(oldAddress);
+        }
+        return oldAddress;
+    }
+    
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Address deleteAddress(Address address) {
+        Address oldAddress = dao.find(address.getId()); 
+        if ( oldAddress != null) {
+                dao.remove(address);
+        }
+        return oldAddress;
     }
 
 }
