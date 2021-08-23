@@ -27,8 +27,8 @@ public class RestServicesClient {
             clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
             Client c = Client.create(clientConfig);
             WebResource r;
-            //String getAndDeletePath = "http://localhost:8084/stoom-test/services/address/1";
-            //r = c.resource(getAndDeletePath);
+            /*String getAndDeletePath = "http://localhost:8084/stoom-test/services/address/15";
+            r = c.resource(getAndDeletePath);*/
 
             //GET
             /*ClientResponse response = r.accept(MediaType.APPLICATION_JSON_TYPE, MediaType.APPLICATION_OCTET_STREAM_TYPE).
@@ -42,10 +42,10 @@ public class RestServicesClient {
             String postAndPutPath = "http://localhost:8084/stoom-test/services/address";
             r = c.resource(postAndPutPath);
 
-            /*Address updateAddress = new Address();
-            updateAddress.setId(1);
-            updateAddress.setCity("City2");
-            updateAddress.setStreetName("Street Name2");
+            Address updateAddress = new Address();
+            updateAddress.setId(9);
+            updateAddress.setCity("City3");
+            updateAddress.setStreetName("Street Name3");
             updateAddress.setNumber(12);
             updateAddress.setNeighbourhood("Neighbour Hood");
             updateAddress.setCountry("Country");
@@ -54,13 +54,13 @@ public class RestServicesClient {
 
             ClientResponse response = r.entity(updateAddress, MediaType.APPLICATION_JSON_TYPE)
                     .accept(MediaType.APPLICATION_JSON_TYPE, MediaType.APPLICATION_OCTET_STREAM_TYPE)
-                    .put(ClientResponse.class);*/
+                    .put(ClientResponse.class);
             
             //POST
             
-            Address newAddress = new Address();
+            /*Address newAddress = new Address();
             newAddress.setCity("New City");
-            newAddress.setStreetName("New Street Name");
+            //newAddress.setStreetName("New Street Name");
             newAddress.setNumber(1);
             newAddress.setNeighbourhood("New Neighbour Hood");
             newAddress.setCountry("New Country");
@@ -69,10 +69,16 @@ public class RestServicesClient {
 
             ClientResponse response = r.entity(newAddress, MediaType.APPLICATION_JSON_TYPE)
                     .accept(MediaType.APPLICATION_JSON_TYPE, MediaType.APPLICATION_OCTET_STREAM_TYPE)
-                    .post(ClientResponse.class);
+                    .post(ClientResponse.class);*/
             
-            Address address = response.getEntity(Address.class);
-            System.out.println("Address: " + address);
+            if (response.getStatus() == ClientResponse.Status.OK.getStatusCode()) {
+                Address address = response.getEntity(Address.class);
+                System.out.println("Address: " + address);
+            }
+            else {
+                System.out.println(response.getStatusInfo());
+            }
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
