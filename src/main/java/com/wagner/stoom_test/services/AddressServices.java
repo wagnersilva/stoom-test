@@ -53,13 +53,13 @@ public class AddressServices {
     
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Address deleteAddress(Address address) {
-        Address oldAddress = dao.find(address.getId()); 
-        if ( oldAddress != null) {
+    @Path("/{id}")
+    public Address deleteAddress(@PathParam("id") int id) {
+        Address address = dao.find(id); 
+        if ( address != null) {
                 dao.remove(address);
         }
-        return oldAddress;
+        return address;
     }
 
 }

@@ -36,9 +36,9 @@ public class AddressDAO {
     }
     
     public Address update(Address address) {
-        if (address.getId() > 0 && entityManager.contains(address)) {
+        if (address.getId() > 0) {
             entityManager.getTransaction().begin();
-            address = entityManager.merge(address);
+                address = entityManager.merge(address);
             entityManager.getTransaction().commit();
         }
         else
@@ -49,7 +49,7 @@ public class AddressDAO {
     public Address remove(Address address) {
          if (address.getId() > 0 && entityManager.contains(address)) {
              entityManager.getTransaction().begin();
-                address = entityManager.merge(address);
+                entityManager.remove(address);
              entityManager.getTransaction().commit();
          }
         return address;

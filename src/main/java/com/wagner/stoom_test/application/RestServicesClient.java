@@ -22,18 +22,60 @@ public class RestServicesClient {
 
     public static void main(String[] args) {
 
-        ClientConfig clientConfig = new DefaultClientConfig();
-        clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
-        Client c  = Client.create(clientConfig);
-        
-        WebResource r = c.resource("http://localhost:8084/stoom-test/services/address/1");
-        
-        ClientResponse response = r.accept(MediaType.APPLICATION_JSON_TYPE, MediaType.APPLICATION_OCTET_STREAM_TYPE).
-                get(ClientResponse.class);
-        
-        Address address = response.getEntity(Address.class);
+        try {
+            ClientConfig clientConfig = new DefaultClientConfig();
+            clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
+            Client c = Client.create(clientConfig);
+            WebResource r;
+            //String getAndDeletePath = "http://localhost:8084/stoom-test/services/address/1";
+            //r = c.resource(getAndDeletePath);
 
-        System.out.println("Address: " + address);
+            //GET
+            /*ClientResponse response = r.accept(MediaType.APPLICATION_JSON_TYPE, MediaType.APPLICATION_OCTET_STREAM_TYPE).
+                    get(ClientResponse.class);*/
+
+            //DELETE
+            /*ClientResponse response = r.accept(MediaType.APPLICATION_JSON_TYPE, MediaType.APPLICATION_OCTET_STREAM_TYPE).
+                    delete(ClientResponse.class);*/
+            
+            //UPDATE
+            String postAndPutPath = "http://localhost:8084/stoom-test/services/address";
+            r = c.resource(postAndPutPath);
+
+            /*Address updateAddress = new Address();
+            updateAddress.setId(1);
+            updateAddress.setCity("City2");
+            updateAddress.setStreetName("Street Name2");
+            updateAddress.setNumber(12);
+            updateAddress.setNeighbourhood("Neighbour Hood");
+            updateAddress.setCountry("Country");
+            updateAddress.setState("State");
+            updateAddress.setZipCode("00000000");
+
+            ClientResponse response = r.entity(updateAddress, MediaType.APPLICATION_JSON_TYPE)
+                    .accept(MediaType.APPLICATION_JSON_TYPE, MediaType.APPLICATION_OCTET_STREAM_TYPE)
+                    .put(ClientResponse.class);*/
+            
+            //POST
+            
+            Address newAddress = new Address();
+            newAddress.setCity("New City");
+            newAddress.setStreetName("New Street Name");
+            newAddress.setNumber(1);
+            newAddress.setNeighbourhood("New Neighbour Hood");
+            newAddress.setCountry("New Country");
+            newAddress.setState("New State");
+            newAddress.setZipCode("00000000");
+
+            ClientResponse response = r.entity(newAddress, MediaType.APPLICATION_JSON_TYPE)
+                    .accept(MediaType.APPLICATION_JSON_TYPE, MediaType.APPLICATION_OCTET_STREAM_TYPE)
+                    .post(ClientResponse.class);
+            
+            Address address = response.getEntity(Address.class);
+            System.out.println("Address: " + address);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
