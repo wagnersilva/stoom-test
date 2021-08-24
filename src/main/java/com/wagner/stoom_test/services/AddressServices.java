@@ -6,6 +6,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.wagner.stoom_test.entities.Address;
+import com.wagner.stoom_test.entities.dto.GeoCoordinates;
+import com.wagner.stoom_test.geocoding.GeocodingMBean;
 import com.wagner.stoom_test.persistence.AddressDAO;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -30,6 +32,9 @@ public class AddressServices {
 
     @Inject
     private AddressDAO dao;
+    
+    @Inject
+    private GeocodingMBean geocodingMBean;
 
     @GET
     @Path("/{id}")
@@ -57,6 +62,11 @@ public class AddressServices {
         if (validator.validate(address).size() > 0)
             builder = Response.status(Status.BAD_REQUEST);
         else {
+            if (!address.containsGeoCoordinates()){
+                GeoCoordinates geoCoordinates = geocodingMBean.getGeoCoordinates(address);
+                address.setLatitude(geoCoordinates.getLatitute());
+                address.setLongitude(geoCoordinates.getLongitude());
+            }
             dao.persist(address);
             builder = Response.ok(address, MediaType.APPLICATION_JSON);
         }
@@ -80,6 +90,11 @@ public class AddressServices {
             if (oldAddress == null)
                builder = Response.status(Status.NOT_FOUND); 
             else {
+                if (!address.containsGeoCoordinates()){
+                    GeoCoordinates geoCoordinates = geocodingMBean.getGeoCoordinates(address);
+                    address.setLatitude(geoCoordinates.getLatitute());
+                    address.setLongitude(geoCoordinates.getLongitude());
+                }
                 oldAddress = address;
                 dao.update(oldAddress);
                 builder = Response.ok(oldAddress, MediaType.APPLICATION_JSON);

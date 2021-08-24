@@ -142,6 +142,13 @@ public class Address implements Serializable {
     public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
+    
+    public boolean containsGeoCoordinates() {
+        boolean containsLatitude = latitude != null && !latitude.isEmpty();
+        boolean containsLongitude = longitude != null && !longitude.isEmpty();
+        
+        return containsLatitude && containsLongitude;
+    }
 
     @Override
     public String toString() {

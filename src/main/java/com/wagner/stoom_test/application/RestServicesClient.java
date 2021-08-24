@@ -12,6 +12,8 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.json.JSONConfiguration;
 import com.wagner.stoom_test.entities.Address;
+import com.wagner.stoom_test.entities.dto.GeoCoordinates;
+import com.wagner.stoom_test.geocoding.GeocodingMBean;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -43,14 +45,16 @@ public class RestServicesClient {
             r = c.resource(postAndPutPath);
 
             Address updateAddress = new Address();
-            updateAddress.setId(9);
-            updateAddress.setCity("City3");
-            updateAddress.setStreetName("Street Name3");
-            updateAddress.setNumber(12);
-            updateAddress.setNeighbourhood("Neighbour Hood");
+            updateAddress.setId(13);
+            updateAddress.setCity("City");
+            updateAddress.setStreetName("Street Name");
+            updateAddress.setNumber(1);
+            updateAddress.setNeighbourhood("Neighbourhood");
             updateAddress.setCountry("Country");
             updateAddress.setState("State");
             updateAddress.setZipCode("00000000");
+            updateAddress.setLatitude("0000");
+            updateAddress.setLongitude("0000");
 
             ClientResponse response = r.entity(updateAddress, MediaType.APPLICATION_JSON_TYPE)
                     .accept(MediaType.APPLICATION_JSON_TYPE, MediaType.APPLICATION_OCTET_STREAM_TYPE)
@@ -59,13 +63,15 @@ public class RestServicesClient {
             //POST
             
             /*Address newAddress = new Address();
-            newAddress.setCity("New City");
-            //newAddress.setStreetName("New Street Name");
+            newAddress.setCity("City");
+            newAddress.setStreetName("Street Name");
             newAddress.setNumber(1);
-            newAddress.setNeighbourhood("New Neighbour Hood");
-            newAddress.setCountry("New Country");
-            newAddress.setState("New State");
+            newAddress.setNeighbourhood("Neighbourhood");
+            newAddress.setCountry("Country");
+            newAddress.setState("CE");
             newAddress.setZipCode("00000000");
+            newAddress.setLatitude("0000");
+            newAddress.setLongitude("0000");
 
             ClientResponse response = r.entity(newAddress, MediaType.APPLICATION_JSON_TYPE)
                     .accept(MediaType.APPLICATION_JSON_TYPE, MediaType.APPLICATION_OCTET_STREAM_TYPE)
@@ -78,6 +84,23 @@ public class RestServicesClient {
             else {
                 System.out.println(response.getStatusInfo());
             }
+            
+            /*Address newAddress = new Address();
+            newAddress.setCity("Icó");
+            newAddress.setStreetName("Rua do Rosario");
+            newAddress.setNumber(291);
+            newAddress.setNeighbourhood("Centro");
+            newAddress.setCountry("Brasil");
+            newAddress.setState("CE");
+            newAddress.setZipCode("63430000");
+            
+            GeocodingMBean geocodingMBean = new GeocodingMBean();
+            geocodingMBean.initContext();
+            
+            GeoCoordinates geoCoordinates = geocodingMBean.getGeoCoordinates(newAddress);
+            System.out.println(geoCoordinates);
+            
+            geocodingMBean.shutdownContext();*/
             
         } catch (Exception e) {
             e.printStackTrace();
